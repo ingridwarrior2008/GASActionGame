@@ -9,6 +9,8 @@ ARPGCharacterBase::ARPGCharacterBase()
 {
 	// Create ability system component, and set it to be explicitly replicated
 	AbilitySystemComponent = CreateDefaultSubobject<URPGAbilitySystemComponent>(TEXT("AbilitySystemComponent"));
+	AbilitySystemComponent->OnGameplayEffectAppliedDelegateToSelf.AddUObject(this, &ARPGCharacterBase::OnGameplayEffectAppliedCallback);
+	AbilitySystemComponent->OnAnyGameplayEffectRemovedDelegate().AddUObject(this, &ARPGCharacterBase::OnAnyGameplayEffectRemovedCallback);
 	AbilitySystemComponent->SetIsReplicated(true);
 
 	// Create the attribute set, this replicates by default
@@ -16,6 +18,18 @@ ARPGCharacterBase::ARPGCharacterBase()
 
 	CharacterLevel = 1;
 	bAbilitiesInitialized = false;
+
+	FrostTag = FGameplayTag::RequestGameplayTag("Status.Player.Frost");
+}
+
+void ARPGCharacterBase::BeginPlay()
+{
+	Super::BeginPlay();
+
+	if (IsValid(GetMesh()))
+	{
+		MaterialCache = GetMesh()->GetMaterial(0);	
+	}
 }
 
 UAbilitySystemComponent* ARPGCharacterBase::GetAbilitySystemComponent() const
@@ -419,3 +433,58 @@ FGenericTeamId ARPGCharacterBase::GetGenericTeamId() const
 	static const FGenericTeamId AITeam(1);
 	return Cast<APlayerController>(GetController()) ? PlayerTeam : AITeam;
 }
+
+#pragma region AbilitySystem
+
+
+void ARPGCharacterBase::OnGameplayEffectAppliedCallback(UAbilitySystemComponent* TargetAbilitySystemComponent, const FGameplayEffectSpec& EffectSpec, FActiveGameplayEffectHandle ActiveHandle)
+{
+	if(HasMatchingGameplayTag(FrostTag))
+	{
+		OnFrostPlayer(true);
+	}
+}
+
+void ARPGCharacterBase::OnAnyGameplayEffectRemovedCallback(const FActiveGameplayEffect& EffectSpec)
+{
+	FGameplayTagContainer Container;
+	EffectSpec.Spec.GetAllGrantedTags(Container);
+
+	if(Container.HasTag(FrostTag))
+	{
+		OnFrostPlayer(false);
+	}
+}
+
+bool ARPGCharacterBase::HasAnyMatchingGameplayTags(const FGameplayTagContainer& TagContainer) const
+{
+	return IsValid(AbilitySystemComponent) ? AbilitySystemComponent->HasAnyMatchingGameplayTags(TagContainer) : false;
+}
+
+bool ARPGCharacterBase::HasMatchingGameplayTag(const FGameplayTag& GameplayTag) const
+{
+	return IsValid(AbilitySystemComponent) ? AbilitySystemComponent->HasMatchingGameplayTag(GameplayTag) : false;
+}
+
+void ARPGCharacterBase::OnFrostPlayer(const bool bIsFrosted)
+{
+	bIsPlayerFrosted = bIsFrosted;
+	if (!IsValid(GetMesh()) || !IsValid(GetCharacterMovement()))
+	{
+		return;
+	}
+	
+	if (bIsPlayerFrosted)
+	{
+		GetCharacterMovement()->StopMovementImmediately();
+		GetCharacterMovement()->SetMovementMode(MOVE_None);
+		GetMesh()->SetMaterial(0, FrostMaterial);
+	}
+	else
+	{
+		GetCharacterMovement()->SetMovementMode(MOVE_Walking);
+		GetMesh()->SetMaterial(0, MaterialCache);
+	}
+}
+
+#pragma endregion AbilitySystem

@@ -12,6 +12,7 @@
 #include "GenericTeamAgentInterface.h"
 #include "RPGCharacterBase.generated.h"
 
+class UAbilitySystemComponent;
 class URPGGameplayAbility;
 class UGameplayEffect;
 
@@ -24,6 +25,7 @@ class ACTIONRPG_API ARPGCharacterBase : public ACharacter, public IAbilitySystem
 public:
 	// Constructor and overrides
 	ARPGCharacterBase();
+	virtual void BeginPlay() override;
 	virtual void PossessedBy(AController* NewController) override;
 	virtual void UnPossessed() override;
 	virtual void OnRep_Controller() override;
@@ -121,6 +123,10 @@ protected:
 	UPROPERTY()
 	int32 bAbilitiesInitialized;
 
+	//TODO [LATER]
+	UPROPERTY(Transient)
+	UMaterialInterface* MaterialCache;
+
 	/** Map of slot to ability granted by that slot. I may refactor this later */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Inventory)
 	TMap<FRPGItemSlot, FGameplayAbilitySpecHandle> SlottedAbilities;
@@ -197,6 +203,46 @@ protected:
 	/** Required to support AIPerceptionSystem */
 	virtual FGenericTeamId GetGenericTeamId() const override;
 
+#pragma region AbilitySystem
+
+
+public:
+
+	
+	UFUNCTION(BlueprintCallable)
+	bool IsPlayerFrosted() const { return bIsPlayerFrosted; }
+
+protected:
+
+
+	bool HasAnyMatchingGameplayTags(const FGameplayTagContainer& TagContainer) const;
+
+	bool HasMatchingGameplayTag(const FGameplayTag& GameplayTag) const;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	FGameplayTag  FrostTag;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	UMaterialInterface* FrostMaterial;
+
+private:
+	UFUNCTION()
+	void OnGameplayEffectAppliedCallback(UAbilitySystemComponent* TargetAbilitySystemComponent, const FGameplayEffectSpec& EffectSpec, FActiveGameplayEffectHandle ActiveHandle);
+
+	UFUNCTION()
+	void OnAnyGameplayEffectRemovedCallback(const FActiveGameplayEffect& EffectSpec);
+
+
+	void OnFrostPlayer(const bool bIsFrosted);
+
+	UPROPERTY(Transient)
+	uint8 bIsPlayerFrosted : 1;
+
+
+
+#pragma endregion AbilitySystem
+
+protected:
 	// Friended to allow access to handle functions above
 	friend URPGAttributeSet;
 };
