@@ -100,10 +100,6 @@
 			"Enabled": false
 		},
 		{
-			"Name": "CableComponent",
-			"Enabled": false
-		},
-		{
 			"Name": "CharacterAI",
 			"Enabled": false
 		},
