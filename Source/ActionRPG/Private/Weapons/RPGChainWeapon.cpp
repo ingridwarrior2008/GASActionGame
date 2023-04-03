@@ -33,8 +33,7 @@ void ARPGChainWeapon::BeginPlay()
 {
 	Super::BeginPlay();
 
-	ChainComponent->SetVisibility(false);
-	AttackCollisionComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	EnableChainAttack(false);
 	AttackCollisionComponent->OnComponentBeginOverlap.AddDynamic(this, &ARPGChainWeapon::OnChainAttackBeginOverlap);
 }
 
@@ -71,8 +70,7 @@ void ARPGChainWeapon::OnStartChainAttack(const ERPGChainWeaponAttack ChainWeapon
 		ChainMovementActor = GetWorld()->SpawnActor<ARPGChainMovement>(ChainMovementClass, ChainMovementSpawnPoint->GetComponentLocation(), ChainMovementSpawnPoint->GetComponentRotation(), SpawnParameters);
 		if (IsValid(ChainMovementActor))
 		{
-			AttackCollisionComponent->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
-			ChainComponent->SetVisibility(true);
+			EnableChainAttack(true);
 			ChainMovablePointComponent->DetachFromComponent(FDetachmentTransformRules::KeepRelativeTransform);
 			ChainMovementActor->OnChainMovementFinishedDelegate.AddDynamic(this, &ARPGChainWeapon::ARPGChainWeapon::OnChainMovementFinishedCallback);
 
@@ -94,7 +92,7 @@ void ARPGChainWeapon::OnChainMovementFinishedCallback()
 {
 	if (IsValid(ChainMovementActor))
 	{
-		ChainComponent->SetVisibility(false);
+		EnableChainAttack(false);
 		const FAttachmentTransformRules& ChainAttachmentRules = FAttachmentTransformRules(EAttachmentRule::SnapToTarget, EAttachmentRule::SnapToTarget, EAttachmentRule::KeepRelative, false);
 		ChainMovablePointComponent->AttachToComponent(RootComponent, ChainAttachmentRules);
 		ChainMovementActor->OnChainMovementFinishedDelegate.RemoveAll(this);
@@ -126,4 +124,10 @@ void ARPGChainWeapon::OnChainAttackBeginOverlap(UPrimitiveComponent* OverlappedC
 			CharacterBase->LaunchCharacter(CharacterKnockBackForce, true, true);
 		}
 	}
+}
+
+void ARPGChainWeapon::EnableChainAttack(const bool bEnable)
+{
+	AttackCollisionComponent->SetCollisionEnabled(bEnable ? ECollisionEnabled::QueryOnly : ECollisionEnabled::NoCollision);
+	ChainComponent->SetVisibility(bEnable);
 }

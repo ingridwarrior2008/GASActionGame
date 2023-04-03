@@ -8,12 +8,19 @@ ARPGBaseWeapon::ARPGBaseWeapon()
 	PrimaryActorTick.bCanEverTick = false;
 }
 
-void ARPGBaseWeapon::InitializeProperties(URPGWeaponItem* WeaponItem, const FRPGItemSlot& ItemSlot)
+void ARPGBaseWeapon::InitializeProperties(URPGWeaponItem* InWeaponItem, const FRPGItemSlot& InItemSlot)
 {
-	BP_InitializeProperties(WeaponItem, ItemSlot);
+	WeaponItem = InWeaponItem;
+	ItemSlot = InItemSlot;
+	BP_InitializeProperties(InWeaponItem, InItemSlot);
 }
 
-void ARPGBaseWeapon::BeginPlay()
+URPGWeaponItem* ARPGBaseWeapon::BP_GetWeaponItem_Implementation() const
 {
-	Super::BeginPlay();
+	return WeaponItem;
+}
+
+FRPGItemSlot ARPGBaseWeapon::GetItemSlot_Implementation() const
+{
+	return ItemSlot;
 }

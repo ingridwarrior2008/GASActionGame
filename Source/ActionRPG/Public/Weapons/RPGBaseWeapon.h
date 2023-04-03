@@ -15,17 +15,26 @@ class ACTIONRPG_API ARPGBaseWeapon : public AActor
 public:	
 
 	ARPGBaseWeapon();
-
 	
 	UFUNCTION(BlueprintCallable)
-	void InitializeProperties(URPGWeaponItem* WeaponItem, const FRPGItemSlot& ItemSlot);
+	void InitializeProperties(URPGWeaponItem* InWeaponItem, const FRPGItemSlot& InItemSlot);
 
-protected:
-
-	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
-	void BP_InitializeProperties(URPGWeaponItem* WeaponItem, const FRPGItemSlot& ItemSlot);
-
-
-	virtual void BeginPlay() override;
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Weapon")
+	URPGWeaponItem* BP_GetWeaponItem() const;
+	virtual URPGWeaponItem* BP_GetWeaponItem_Implementation() const;
 	
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Weapon")
+	FRPGItemSlot GetItemSlot() const;
+	virtual FRPGItemSlot GetItemSlot_Implementation() const;
+	
+protected:
+	
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
+	void BP_InitializeProperties(URPGWeaponItem* InWeaponItem, const FRPGItemSlot& InItemSlot);
+	
+	UPROPERTY(Transient)
+	URPGWeaponItem* WeaponItem;
+
+	UPROPERTY(Transient)
+	FRPGItemSlot ItemSlot;
 };

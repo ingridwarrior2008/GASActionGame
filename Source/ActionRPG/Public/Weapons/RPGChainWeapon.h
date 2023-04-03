@@ -17,6 +17,7 @@ enum class ERPGChainWeaponAttack : uint8
 	Attack_DefaultLeft,
 	Attack_DefaultRight,
 	Attack_Whirlwind,
+	Attack_UltraWhirlwind,
 	Attack_Grapple
 };
 
@@ -95,6 +96,9 @@ private:
 
 	UFUNCTION()
 	void OnChainAttackBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
+	
+	void EnableChainAttack(const bool bEnable);
 
 	UPROPERTY(Transient)
 	ERPGChainWeaponAttack CurrentChainAttack;
