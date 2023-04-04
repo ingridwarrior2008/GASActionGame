@@ -7,6 +7,10 @@
 #include "RPGBaseWeapon.generated.h"
 
 class URPGWeaponItem;
+
+/**
+ * Base class for handle the game weapons.
+ */
 UCLASS()
 class ACTIONRPG_API ARPGBaseWeapon : public AActor
 {

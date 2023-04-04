@@ -9,6 +9,9 @@
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FRPGOnChainMovementFinishedSignature);
 
+/**
+ * Base class for Chain movement for the moment its using spline movement.
+ */
 UCLASS()
 class ACTIONRPG_API ARPGChainMovement : public AActor
 {

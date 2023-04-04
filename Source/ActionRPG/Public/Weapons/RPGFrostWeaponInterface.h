@@ -14,7 +14,7 @@ class URPGFrostWeaponInterface : public UInterface
 };
 
 /**
- * 
+ * Interface to check witch weapon can use Frost ability
  */
 class ACTIONRPG_API IRPGFrostWeaponInterface
 {

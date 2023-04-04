@@ -14,7 +14,7 @@ class URPGDoubleWeaponInterface : public UInterface
 };
 
 /**
- * 
+ * Interface to easily attach or Detach a double weapon. 
  */
 class ACTIONRPG_API IRPGDoubleWeaponInterface
 {

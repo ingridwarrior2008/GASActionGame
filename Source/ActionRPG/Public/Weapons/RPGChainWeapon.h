@@ -22,7 +22,7 @@ enum class ERPGChainWeaponAttack : uint8
 };
 
 /**
- * 
+ * Structs that contains the chain weapon configuration.
  */
 USTRUCT(BlueprintType)
 struct FRPGChainWeaponConfig
@@ -66,7 +66,7 @@ struct FRPGChainWeaponConfig
 };
 
 /**
- * 
+ * Base class for that handle Chain weapon.
  */
 UCLASS()
 class ACTIONRPG_API ARPGChainWeapon : public ARPGBaseWeapon

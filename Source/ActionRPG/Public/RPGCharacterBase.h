@@ -123,7 +123,7 @@ protected:
 	UPROPERTY()
 	int32 bAbilitiesInitialized;
 
-	//TODO [LATER]
+	/** The Initial Material of the Character. */
 	UPROPERTY(Transient)
 	UMaterialInterface* MaterialCache;
 
@@ -208,20 +208,23 @@ protected:
 
 public:
 
-	
+	/** Gets is the player was frost. */
 	UFUNCTION(BlueprintCallable)
 	bool IsPlayerFrosted() const { return bIsPlayerFrosted; }
 
 protected:
 
-
+	/** Checks if the given container is on the ability tags. */
 	bool HasAnyMatchingGameplayTags(const FGameplayTagContainer& TagContainer) const;
 
+	/** Checks if the given gameplayTag is on the ability tags. */
 	bool HasMatchingGameplayTag(const FGameplayTag& GameplayTag) const;
 
+	/** The value of the Frost Tag. */
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	FGameplayTag  FrostTag;
 
+	/** The Material Interface when the player is frost. */
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	UMaterialInterface* FrostMaterial;
 
@@ -232,13 +235,12 @@ private:
 	UFUNCTION()
 	void OnAnyGameplayEffectRemovedCallback(const FActiveGameplayEffect& EffectSpec);
 
-
+	/** Stop Movement and apply the frost Material when the Character is frost. */
 	void OnFrostPlayer(const bool bIsFrosted);
 
+	/** Reference value if the player is frost. */
 	UPROPERTY(Transient)
 	uint8 bIsPlayerFrosted : 1;
-
-
 
 #pragma endregion AbilitySystem
 

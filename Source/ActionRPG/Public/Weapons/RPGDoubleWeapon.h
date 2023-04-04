@@ -15,7 +15,7 @@ enum class ERPGWeaponType : uint8
 };
 
 /**
- * 
+ * Base class for that handle double weapons.
  */
 UCLASS()
 class ACTIONRPG_API ARPGDoubleWeapon : public ARPGBaseWeapon, public IRPGDoubleWeaponInterface

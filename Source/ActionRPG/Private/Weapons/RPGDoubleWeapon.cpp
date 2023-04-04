@@ -35,7 +35,6 @@ void ARPGDoubleWeapon::Destroyed()
 	}
 }
 
-
 void ARPGDoubleWeapon::BP_AttachDoubleWeaponToComponent_Implementation(USceneComponent* Parent, const EAttachmentRule LocationRule, const EAttachmentRule RotationRule, const EAttachmentRule ScaleRule, const bool bWeldSimulatedBodies)
 {
 	if (IsValid(LeftWeapon))
