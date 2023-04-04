@@ -436,7 +436,6 @@ FGenericTeamId ARPGCharacterBase::GetGenericTeamId() const
 
 #pragma region AbilitySystem
 
-
 void ARPGCharacterBase::OnGameplayEffectAppliedCallback(UAbilitySystemComponent* TargetAbilitySystemComponent, const FGameplayEffectSpec& EffectSpec, FActiveGameplayEffectHandle ActiveHandle)
 {
 	if(HasMatchingGameplayTag(FrostTag))

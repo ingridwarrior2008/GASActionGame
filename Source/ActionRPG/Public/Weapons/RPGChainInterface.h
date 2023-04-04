@@ -20,7 +20,8 @@ class ACTIONRPG_API IRPGChainInterface
 	GENERATED_BODY()
 
 public:
-	/** */
+	
+	/** Gets the Point where the chain movement class will spawn. */
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Chain")
 	USceneComponent* BP_GetChainMovementSpawnPoint() const;
 };

@@ -7,7 +7,7 @@
 #include "RPGSmashFuryAbility.generated.h"
 
 /**
- * 
+ * Class of the ability smash fury.
  */
 UCLASS()
 class ACTIONRPG_API URPGSmashFuryAbility : public URPGGameplayAbility
@@ -22,8 +22,7 @@ protected:
 	virtual void ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData) override;
 
 	virtual void CancelAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, bool bReplicateCancelAbility) override;
-
-
+	
 	UPROPERTY(EditDefaultsOnly)
 	UAnimMontage* SkillAnimMontage;
 

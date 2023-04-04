@@ -96,7 +96,6 @@ private:
 
 	UFUNCTION()
 	void OnChainAttackBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
-
 	
 	void EnableChainAttack(const bool bEnable);
 
