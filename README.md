@@ -27,5 +27,6 @@ https://user-images.githubusercontent.com/1762283/230521651-463b9dd6-f698-43ad-9
 This Ability will make a ground punch that freezes the enemies and makes them unable to move.
 
 
-https://user-images.githubusercontent.com/1762283/230521868-5fcd15f0-716d-4235-a7b3-92a61aaefe1c.mp4
+
+https://user-images.githubusercontent.com/1762283/230522074-b5fd14d6-4d59-49bb-a4fb-98075ded5d9c.mp4
 
